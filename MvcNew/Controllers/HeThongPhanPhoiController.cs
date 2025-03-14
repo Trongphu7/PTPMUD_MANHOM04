@@ -6,26 +6,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MvcMovie.Data;
-using MvcMovie.Models;
 
 namespace MvcMovie.Controllers
 {
-    public class PersonController : Controller
+    public class HeThongPhanPhoiController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PersonController(ApplicationDbContext context)
+        public HeThongPhanPhoiController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Person
+        // GET: HeThongPhanPhoi
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Persons.ToListAsync());
+            return View(await _context.HeThongPhanPhois.ToListAsync());
         }
 
-        // GET: Person/Details/5
+        // GET: HeThongPhanPhoi/Details/5
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -33,39 +32,39 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.PersonId == id);
-            if (person == null)
+            var heThongPhanPhoi = await _context.HeThongPhanPhois
+                .FirstOrDefaultAsync(m => m.MaHTPP == id);
+            if (heThongPhanPhoi == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(heThongPhanPhoi);
         }
 
-        // GET: Person/Create
+        // GET: HeThongPhanPhoi/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Person/Create
+        // POST: HeThongPhanPhoi/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonId,FullName,Address")] Person person)
+        public async Task<IActionResult> Create([Bind("MaHTPP,TenHTPP")] HeThongPhanPhoi heThongPhanPhoi)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(person);
+                _context.Add(heThongPhanPhoi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(heThongPhanPhoi);
         }
 
-        // GET: Person/Edit/5
+        // GET: HeThongPhanPhoi/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -73,22 +72,22 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons.FindAsync(id);
-            if (person == null)
+            var heThongPhanPhoi = await _context.HeThongPhanPhois.FindAsync(id);
+            if (heThongPhanPhoi == null)
             {
                 return NotFound();
             }
-            return View(person);
+            return View(heThongPhanPhoi);
         }
 
-        // POST: Person/Edit/5
+        // POST: HeThongPhanPhoi/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("PersonId,FullName,Address")] Person person)
+        public async Task<IActionResult> Edit(string id, [Bind("MaHTPP,TenHTPP")] HeThongPhanPhoi heThongPhanPhoi)
         {
-            if (id != person.PersonId)
+            if (id != heThongPhanPhoi.MaHTPP)
             {
                 return NotFound();
             }
@@ -97,12 +96,12 @@ namespace MvcMovie.Controllers
             {
                 try
                 {
-                    _context.Update(person);
+                    _context.Update(heThongPhanPhoi);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonExists(person.PersonId))
+                    if (!HeThongPhanPhoiExists(heThongPhanPhoi.MaHTPP))
                     {
                         return NotFound();
                     }
@@ -113,10 +112,10 @@ namespace MvcMovie.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(person);
+            return View(heThongPhanPhoi);
         }
 
-        // GET: Person/Delete/5
+        // GET: HeThongPhanPhoi/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -124,34 +123,34 @@ namespace MvcMovie.Controllers
                 return NotFound();
             }
 
-            var person = await _context.Persons
-                .FirstOrDefaultAsync(m => m.PersonId == id);
-            if (person == null)
+            var heThongPhanPhoi = await _context.HeThongPhanPhois
+                .FirstOrDefaultAsync(m => m.MaHTPP == id);
+            if (heThongPhanPhoi == null)
             {
                 return NotFound();
             }
 
-            return View(person);
+            return View(heThongPhanPhoi);
         }
 
-        // POST: Person/Delete/5
+        // POST: HeThongPhanPhoi/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var person = await _context.Persons.FindAsync(id);
-            if (person != null)
+            var heThongPhanPhoi = await _context.HeThongPhanPhois.FindAsync(id);
+            if (heThongPhanPhoi != null)
             {
-                _context.Persons.Remove(person);
+                _context.HeThongPhanPhois.Remove(heThongPhanPhoi);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool PersonExists(string id)
+        private bool HeThongPhanPhoiExists(string id)
         {
-            return _context.Persons.Any(e => e.PersonId == id);
+            return _context.HeThongPhanPhois.Any(e => e.MaHTPP == id);
         }
     }
 }

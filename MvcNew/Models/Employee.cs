@@ -7,8 +7,12 @@ namespace MvcMovie.Models
 
         public Employee()
         {
-            EmployeeId = string.Empty;
-            Age = 0;
+            EmployeeId = GenerateEmployeeId();
+        }
+
+        private string GenerateEmployeeId()
+        {
+            return "EMP-" + Guid.NewGuid().ToString("N").Substring(6).ToUpper();
         }
     }
 }

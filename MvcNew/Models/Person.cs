@@ -1,19 +1,23 @@
 using System;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-public class Person
+namespace MvcMovie.Models
 {
-    [Key] // Khóa chính nhưng không tự động tăng
-    public string PersonId { get; set; } = Guid.NewGuid().ToString();
+    public class Person
+    {
+        public string PersonId { get; set; }
+        public string FullName { get; set; }
+        public string Address { get; set; }
 
-    [Required(ErrorMessage = "Họ tên không được để trống")]
-    public string FullName { get; set; } = string.Empty;
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        public Person()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
+        {
+            PersonId = GeneratePersonId();
+        }
 
-    [Required(ErrorMessage = "Địa chỉ không được để trống")]
-    public string Address { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Email không được để trống")]
-    [EmailAddress(ErrorMessage = "Email không hợp lệ")]
-    public string Email { get; set; } = string.Empty;
+        private string GeneratePersonId()
+        {
+            return "P-" + Guid.NewGuid().ToString("N").Substring(6).ToUpper();
+        }
+    }
 }
